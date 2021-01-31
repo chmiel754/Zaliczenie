@@ -59,6 +59,15 @@ public class CartesianPanel extends JPanel {
     }
 
     private void drawArrows(Graphics2D g2) {
+        // x-axis arrow
+        g2.drawLine(X_AXIS_SPACE - FIRST_LENGHT,
+                X_AXIS_Y_COORD - SECOND_LENGHT,
+                X_AXIS_SPACE, X_AXIS_Y_COORD);
+        g2.drawLine(X_AXIS_SPACE - FIRST_LENGHT,
+                X_AXIS_Y_COORD + SECOND_LENGHT,
+                X_AXIS_SPACE, X_AXIS_Y_COORD);
+
+        // y-axis arrow
         g2.drawLine(Y_AXIS_X_COORD - SECOND_LENGHT,
                 Y_AXIS_MARGIN_LEFT + FIRST_LENGHT,
                 Y_AXIS_X_COORD, Y_AXIS_MARGIN_LEFT);
