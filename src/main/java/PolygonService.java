@@ -1,13 +1,11 @@
-import java.awt.*;
 import java.util.ArrayList;
 
 
 public class PolygonService {
 
-
     // https://en.wikipedia.org/wiki/Shoelace_formula
     // Shoelace formula
-    public static double polygonArea(ArrayList<ExtendedPoint> points) {
+    static double polygonArea(ArrayList<ExtendedPoint> points) {
         double area = 0.0;
         int j = points.size() - 1;
         for (int i = 0; i < points.size(); i++) {
@@ -17,7 +15,7 @@ public class PolygonService {
         return Math.abs(area / 2.0);
     }
 
-    public static double polygonPerimeter(ArrayList<ExtendedPoint> points) {
+    static double polygonPerimeter(ArrayList<ExtendedPoint> points) {
         int len = points.size();
         double distance = 0;
 

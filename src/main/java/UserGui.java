@@ -7,8 +7,8 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
-public class UserGui {
-    public static ArrayList<ExtendedPoint> points = new ArrayList<ExtendedPoint>();
+class UserGui {
+    static ArrayList<ExtendedPoint> points = new ArrayList<ExtendedPoint>();
     private final int MIN_FRAME_HEIGHT = 200;
     private int corners = 4;
     private Map<String, String> pointsValue = new HashMap<String, String>() {{

@@ -17,73 +17,84 @@ public class CartesianPanel extends JPanel {
     private int Y_AXIS_MARGIN_LEFT = 50;
     private int Y_AXIS_SPACE = 750;
     private int Y_AXIS_X_COORD = 50;
-
+    private int ORIGIN_COORDINATE_LENGHT = 6;
+    private int AXIS_STRING_DISTANCE = 20;
 
     private int FIRST_LENGHT = 10;
     private int SECOND_LENGHT = 5;
 
-    private int ORIGIN_COORDINATE_LENGHT = 6;
+    private int xLength = (X_AXIS_SPACE - X_AXIS_MARGIN_LEFT) / X_AXIS_COORDS_COUNT;
+    private int yLength = (Y_AXIS_SPACE - Y_AXIS_MARGIN_LEFT) / Y_AXIS_COORDS_COUNT;
 
-    private int AXIS_STRING_DISTANCE = 20;
 
     public void paintComponent(Graphics g) {
-
         super.paintComponent(g);
 
         Graphics2D g2 = (Graphics2D) g;
         g.setFont(new Font("TimesRoman", Font.PLAIN, FONT_SIZE));
         g2.scale(CartesianFrame.SCALE_WIDTH_PCT, CartesianFrame.SCALE_HEIGHT_PCT);
-
         g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING,
                 RenderingHints.VALUE_ANTIALIAS_ON);
 
-        // x-axis
+        this.drawXYlines(g2);
+        this.drawArrows(g2);
+        this.drawOriginPoint(g2);
+        this.drawXYsigns(g2);
+        this.drawVerticalLines(g2, xLength);
+        this.drawHorizontalLines(g2, yLength);
+        this.numerateAxis(g2);
+        this.drawShape(g2);
+    }
+
+    void rescale() {
+        this.validate();
+        this.repaint();
+    }
+
+    private void drawXYlines(Graphics2D g2){
         g2.drawLine(X_AXIS_MARGIN_LEFT, X_AXIS_Y_COORD,
                 X_AXIS_SPACE, X_AXIS_Y_COORD);
-        // y-axis
         g2.drawLine(Y_AXIS_X_COORD, Y_AXIS_MARGIN_LEFT,
                 Y_AXIS_X_COORD, Y_AXIS_SPACE);
+    }
 
-        // x-axis arrow
-        g2.drawLine(X_AXIS_SPACE - FIRST_LENGHT,
-                X_AXIS_Y_COORD - SECOND_LENGHT,
-                X_AXIS_SPACE, X_AXIS_Y_COORD);
-        g2.drawLine(X_AXIS_SPACE - FIRST_LENGHT,
-                X_AXIS_Y_COORD + SECOND_LENGHT,
-                X_AXIS_SPACE, X_AXIS_Y_COORD);
-
-        // y-axis arrow
+    private void drawArrows(Graphics2D g2) {
         g2.drawLine(Y_AXIS_X_COORD - SECOND_LENGHT,
                 Y_AXIS_MARGIN_LEFT + FIRST_LENGHT,
                 Y_AXIS_X_COORD, Y_AXIS_MARGIN_LEFT);
         g2.drawLine(Y_AXIS_X_COORD + SECOND_LENGHT,
                 Y_AXIS_MARGIN_LEFT + FIRST_LENGHT,
                 Y_AXIS_X_COORD, Y_AXIS_MARGIN_LEFT);
+    }
 
-        // draw origin Point
+
+    private void drawShape(Graphics2D g2) {
+        Polygon polygon = new Polygon();
+        for (ExtendedPoint point : UserGui.points) {
+            polygon.addPoint(getPointXToPixelValue(point), getPointYToPixelValue(point));
+            g2.drawString(point.name, getPointXToPixelValue(point) + ORIGIN_COORDINATE_LENGHT, getPointYToPixelValue(point) + ORIGIN_COORDINATE_LENGHT);
+        }
+        g2.drawPolygon(polygon);
+    }
+
+    private void drawOriginPoint(Graphics2D g2) {
+        int ORIGIN_COORDINATE_LENGHT = 6;
         g2.fillOval(
                 X_AXIS_MARGIN_LEFT - (ORIGIN_COORDINATE_LENGHT / 2),
                 Y_AXIS_SPACE - (ORIGIN_COORDINATE_LENGHT / 2),
                 ORIGIN_COORDINATE_LENGHT, ORIGIN_COORDINATE_LENGHT);
+    }
 
-        // draw text "X" and draw text "Y"
+    private void drawXYsigns(Graphics2D g2) {
         g2.drawString("X", X_AXIS_SPACE - AXIS_STRING_DISTANCE / 2,
                 X_AXIS_Y_COORD + AXIS_STRING_DISTANCE);
         g2.drawString("Y", Y_AXIS_X_COORD - AXIS_STRING_DISTANCE,
                 Y_AXIS_MARGIN_LEFT + AXIS_STRING_DISTANCE / 2);
         g2.drawString("(0, 0)", X_AXIS_MARGIN_LEFT - AXIS_STRING_DISTANCE,
                 Y_AXIS_SPACE + AXIS_STRING_DISTANCE);
+    }
 
-        // numerate axis
-        int xLength = (X_AXIS_SPACE - X_AXIS_MARGIN_LEFT)
-                / X_AXIS_COORDS_COUNT;
-        int yLength = (Y_AXIS_SPACE - Y_AXIS_MARGIN_LEFT)
-                / Y_AXIS_COORDS_COUNT;
-
-        drawVerticalLines(g2, xLength);
-        drawHorizontalLines(g2, yLength);
-
-        // draw x-axis numbers
+    private void numerateAxis(Graphics2D g2) {
         for (int i = 1; i < X_AXIS_COORDS_COUNT; i++) {
             g2.drawLine(X_AXIS_MARGIN_LEFT + (i * xLength),
                     X_AXIS_Y_COORD - SECOND_LENGHT,
@@ -104,21 +115,6 @@ public class CartesianPanel extends JPanel {
                     Y_AXIS_X_COORD - AXIS_STRING_DISTANCE,
                     Y_AXIS_SPACE - (i * yLength));
         }
-
-        //draw shape
-        Polygon polygon = new Polygon();
-        for (ExtendedPoint point : UserGui.points) {
-            polygon.addPoint(getPointXToPixelValue(point), getPointYToPixelValue(point));
-            g2.drawString(point.name, getPointXToPixelValue(point) + ORIGIN_COORDINATE_LENGHT, getPointYToPixelValue(point) + ORIGIN_COORDINATE_LENGHT);
-        }
-        g2.drawPolygon(polygon);
-
-    }
-
-
-    public void rescale() {
-        this.validate();
-        this.repaint();
     }
 
     private void drawVerticalLines(Graphics2D g2, int xLength) {

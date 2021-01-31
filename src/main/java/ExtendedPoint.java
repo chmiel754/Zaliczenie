@@ -1,9 +1,9 @@
 import java.awt.*;
 
 public class ExtendedPoint extends Point {
-    public String name;
+    String name;
 
-    public ExtendedPoint(String name, int x, int y) {
+    ExtendedPoint(String name, int x, int y) {
         super(x, y);
         this.name = name;
     }

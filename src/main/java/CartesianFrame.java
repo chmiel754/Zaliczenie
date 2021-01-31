@@ -5,11 +5,11 @@ import java.awt.event.ComponentEvent;
 
 public class CartesianFrame extends JFrame {
 
-    public static int UI_WIDTH = 800;
-    public static int UI_HEIGHT = 850;
+    private static int UI_WIDTH = 800;
+    private static int UI_HEIGHT = 850;
 
-    public static double SCALE_WIDTH_PCT = 1;
-    public static double SCALE_HEIGHT_PCT = 1;
+    static double SCALE_WIDTH_PCT = 1;
+    static double SCALE_HEIGHT_PCT = 1;
 
     private CartesianPanel panel;
 
